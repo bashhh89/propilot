@@ -1,0 +1,34 @@
+{
+  "mcpServers": {
+    "web-search": {
+      "command": "uvx",
+      "args": ["mcp-server-web-search"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": ["search_web"]
+    },
+    "github": {
+      "command": "uvx", 
+      "args": ["mcp-server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "",
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": ["search_repositories", "get_file_contents"]
+    },
+    "openwebui": {
+      "command": "uvx",
+      "args": ["mcp-server-openwebui"],
+      "env": {
+        "OPENWEBUI_BASE_URL": "https://socialgarden-openwebui.vo0egb.easypanel.host",
+        "OPENWEBUI_API_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI1ZTIyODVkLTI0NTUtNGQyMS1iZGJkLWNiYzYwYTlhN2RjYyJ9.hJGAazDC0Dm9JS3n-2ngWPTr7IZ_ggSJPEe9fVtX2rw",
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": ["chat_completions", "list_models"]
+    }
+  }
+}
