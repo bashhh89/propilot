@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProPilot - AI Procurement Copilot by Ahmad Basheer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: #000000;
+            border-bottom: 1px solid #333333;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .creator {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #ffffff;
+            margin-left: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Hero Section - File Drop Zone */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #ffffff;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* File Drop Zone */
+        .drop-zone {
+            border: 2px dashed #333333;
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            background: #111111;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .drop-zone:hover {
+            border-color: #ffffff;
+            background: #222222;
+        }
+
+        .drop-zone.dragover {
+            border-color: #ffffff;
+            background: #222222;
+            transform: scale(1.02);
+        }
+
+        .drop-icon {
+            font-size: 4rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .drop-text {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .drop-subtext {
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #ffffff;
+            color: #000000;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+        }
+
+        .upload-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            border-top: 1px solid #333333;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #ffffff;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .process-card {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .process-card:hover {
+            transform: translateY(-4px);
+            border-color: #ffffff;
+        }
+
+        .process-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .process-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .process-description {
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Algorithm Deep Dive */
+        .algorithm-section {
+            background: #111111;
+            padding: 4rem 2rem;
+            border-top: 1px solid #333333;
+        }
+
+        .algorithm-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .algorithm-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .algorithm-text {
+            color: #ffffff;
+        }
+
+        .algorithm-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .algorithm-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .algorithm-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .algorithm-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #222222;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .algorithm-icon {
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        /* Tech Stack Showcase */
+        .tech-showcase {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            border-top: 1px solid #333333;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .tech-category {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .tech-category-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tech-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: #222222;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #ffffff;
+        }
+
+        /* Results Section */
+        .results {
+            background: #111111;
+            padding: 4rem 2rem;
+            border-top: 1px solid #333333;
+        }
+
+        .results-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background: #222222;
+            border: 1px solid #333333;
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* About Ahmad Section */
+        .about-ahmad {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            border-top: 1px solid #333333;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .profile-placeholder {
+            width: 200px;
+            height: 200px;
+            background: #222222;
+            border: 2px solid #333333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #ffffff;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            color: #ffffff;
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        .footer {
+            background: #222222;
+            border-top: 1px solid #333333;
+            padding: 2rem 0;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 2px solid #333333;
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .algorithm-grid,
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .process-grid,
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo">
+                <i class="fas fa-robot"></i>
+                ProPilot
+                <span class="creator">by Ahmad Basheer</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#tech">Technology</a></li>
+                <li><a href="#about">About Ahmad</a></li>
+                <li><a href="/procurement-dashboard-pro.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section - File Drop -->
+    <section class="hero">
+        <h1 class="hero-title">AI-Powered Procurement Intelligence</h1>
+        <p class="hero-subtitle">
+            Drop your CSV or Excel file below to instantly analyze procurement data and discover hidden cost savings.
+        </p>
+
+        <div class="drop-zone" id="dropZone">
+            <div class="drop-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <div class="drop-text">Drop your procurement file here</div>
+            <div class="drop-subtext">or click to browse (CSV, Excel supported)</div>
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-upload"></i>
+                Choose File
+            </button>
+        </div>
+
+        <input type="file" id="fileInput" class="file-input" accept=".csv,.xlsx,.xls">
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>Analyzing your procurement data...</div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how">
+        <h2 class="section-title">How ProPilot Works</h2>
+        <div class="process-grid">
+            <div class="process-card">
+                <div class="process-number">1</div>
+                <h3 class="process-title">Upload Your Data</h3>
+                <p class="process-description">
+                    Simply drag and drop your procurement CSV or Excel file. ProPilot instantly processes
+                    thousands of records and normalizes the data for analysis.
+                </p>
+            </div>
+
+            <div class="process-card">
+                <div class="process-number">2</div>
+                <h3 class="process-title">AI Analysis Engine</h3>
+                <p class="process-description">
+                    Advanced algorithms detect duplicate vendors, price anomalies, and off-contract spending.
+                    Mathematical precision meets AI intelligence.
+                </p>
+            </div>
+
+            <div class="process-card">
+                <div class="process-number">3</div>
+                <h3 class="process-title">Actionable Insights</h3>
+                <p class="process-description">
+                    Get detailed reports with specific savings opportunities, confidence levels, and
+                    next steps. Every insight includes dollar amounts and implementation guidance.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Algorithm Deep Dive -->
+    <section class="algorithm-section">
+        <div class="algorithm-container">
+            <h2 class="section-title">The Science Behind the Savings</h2>
+            <div class="algorithm-grid">
+                <div class="algorithm-text">
+                    <h3>Real Math, Not AI Guessing</h3>
+                    <p>
+                        ProPilot doesn't just use AI to "guess" at savings. It employs proven mathematical
+                        algorithms used by Fortune 500 procurement teams, then enhances the results with
+                        AI-powered contextual insights.
+                    </p>
+                    <p>
+                        Every savings calculation is backed by statistical analysis, not wishful thinking.
+                        This is why our ROI predictions are consistently accurate.
+                    </p>
+                </div>
+
+                <ul class="algorithm-list">
+                    <li>
+                        <i class="fas fa-search algorithm-icon"></i>
+                        <div>
+                            <strong>Fuzzy String Matching</strong><br>
+                            Detects duplicate vendors even with spelling variations
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-chart-line algorithm-icon"></i>
+                        <div>
+                            <strong>Statistical Outlier Detection</strong><br>
+                            Identifies price anomalies using IQR method
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-calculator algorithm-icon"></i>
+                        <div>
+                            <strong>Levenshtein Distance</strong><br>
+                            Measures similarity between vendor names mathematically
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-brain algorithm-icon"></i>
+                        <div>
+                            <strong>AI Context Layer</strong><br>
+                            OpenAI GPT-4 provides human-readable explanations
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Showcase -->
+    <section class="tech-showcase" id="tech">
+        <h2 class="section-title">Built with Production-Grade Technology</h2>
+        <div class="tech-grid">
+            <div class="tech-category">
+                <h3 class="tech-category-title">
+                    <i class="fas fa-server"></i>
+                    Backend
+                </h3>
+                <div class="tech-items">
+                    <div class="tech-item">
+                        <i class="fab fa-node-js"></i>
+                        Node.js + Express
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-file-excel"></i>
+                        XLSX + CSV Parser
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-upload"></i>
+                        Multer File Processing
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3 class="tech-category-title">
+                    <i class="fas fa-brain"></i>
+                    AI Integration
+                </h3>
+                <div class="tech-items">
+                    <div class="tech-item">
+                        <i class="fas fa-robot"></i>
+                        OpenAI GPT-4
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-comments"></i>
+                        OpenWebUI Integration
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-stream"></i>
+                        Real-time Streaming
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3 class="tech-category-title">
+                    <i class="fas fa-desktop"></i>
+                    Frontend
+                </h3>
+                <div class="tech-items">
+                    <div class="tech-item">
+                        <i class="fab fa-js"></i>
+                        Vanilla JavaScript
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-paint-brush"></i>
+                        Custom CSS
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        Responsive Design
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3 class="tech-category-title">
+                    <i class="fas fa-shield-alt"></i>
+                    Security
+                </h3>
+                <div class="tech-items">
+                    <div class="tech-item">
+                        <i class="fas fa-lock"></i>
+                        CORS Protection
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-user-shield"></i>
+                        Data Privacy
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-trash"></i>
+                        Auto File Cleanup
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results" id="results">
+        <div class="results-container">
+            <h2 class="section-title">Proven Results</h2>
+            <p style="font-size: 1.2rem; color: #ffffff; margin-bottom: 3rem;">
+                Real savings from real procurement data analysis
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">450%</div>
+                    <div class="stat-label">Average ROI</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8-15%</div>
+                    <div class="stat-label">Cost Savings</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">
+                        < 60s</div>
+                            <div class="stat-label">Analysis Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Data Accuracy</div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- About Ahmad Section -->
+    <section class="about-ahmad" id="about">
+        <h2 class="section-title">Meet Ahmad Basheer</h2>
+        <div class="about-content">
+            <div class="about-image">
+                <div class="profile-placeholder">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+
+            <div class="about-text">
+                <h3>Procurement Expert & AI Developer</h3>
+                <p>
+                    I've spent years in procurement, watching companies waste millions on duplicate vendors,
+                    off-contract spending, and price anomalies that traditional tools miss. The frustration
+                    of seeing the same problems over and over drove me to build something better.
+                </p>
+                <p>
+                    ProPilot combines my real-world procurement experience with cutting-edge AI technology.
+                    It's not just another analytics tool - it's a solution built by someone who understands
+                    the actual pain points procurement teams face every day.
+                </p>
+                <h3>Why I Built This</h3>
+                <p>
+                    Traditional procurement tools are slow, expensive, and miss critical details. I wanted
+                    to create something that delivers instant, actionable insights with mathematical precision.
+                    ProPilot identifies savings opportunities that would take weeks to find manually,
+                    and does it in under 60 seconds.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-title">Ready to optimize your procurement?</div>
+            <p>Built with expertise, powered by AI, designed for results.</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #ffffff;">
+                Created by <strong>Ahmad Basheer</strong> - Procurement Expert & AI Developer
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // File drop functionality
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const loading = document.getElementById('loading');
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        // Highlight drop zone when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        // Handle dropped files
+        dropZone.addEventListener('drop', handleDrop, false);
+        fileInput.addEventListener('change', handleFileSelect, false);
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight(e) {
+            dropZone.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (isValidFile(file)) {
+                    uploadFile(file);
+                } else {
+                    alert('Please select a CSV or Excel file.');
+                }
+            }
+        }
+
+        function isValidFile(file) {
+            const validTypes = ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+            const validExtensions = ['.csv', '.xls', '.xlsx'];
+            return validTypes.includes(file.type) || validExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+        }
+
+        async function uploadFile(file) {
+            loading.classList.add('active');
+            dropZone.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Store data and redirect to dashboard
+                    sessionStorage.setItem('uploadedData', JSON.stringify(result.data));
+                    window.location.href = '/procurement-dashboard-pro.html';
+                } else {
+                    throw new Error(result.error || 'Upload failed');
+                }
+            } catch (error) {
+                alert('Upload failed: ' + error.message);
+                loading.classList.remove('active');
+                dropZone.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+
+</html>

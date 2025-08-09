@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProPilot - Live Demo | Ahmad Basheer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: #000000;
+            border-bottom: 1px solid #333333;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .live-badge {
+            background: #ffffff;
+            color: #000000;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .demo-label {
+            background: #333333;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            display: inline-block;
+        }
+
+        /* File Drop Zone */
+        .drop-zone {
+            border: 2px dashed #333333;
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            background: #111111;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .drop-zone:hover {
+            border-color: #ffffff;
+            background: #222222;
+        }
+
+        .drop-zone.dragover {
+            border-color: #ffffff;
+            background: #222222;
+            transform: scale(1.02);
+        }
+
+        .drop-icon {
+            font-size: 4rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .drop-text {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .drop-subtext {
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #ffffff;
+            color: #000000;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+        }
+
+        .upload-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        /* What This Demonstrates */
+        .demo-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            border-top: 1px solid #333333;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #ffffff;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .demo-card {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .demo-card-icon {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .demo-card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .demo-card-description {
+            color: #ffffff;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background: #333333;
+            color: #ffffff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* The Real Story */
+        .story-section {
+            background: #111111;
+            padding: 4rem 2rem;
+            border-top: 1px solid #333333;
+        }
+
+        .story-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .story-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #ffffff;
+            margin-bottom: 2rem;
+        }
+
+        .story-highlight {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* Portfolio Link */
+        .portfolio-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            border-top: 1px solid #333333;
+            text-align: center;
+        }
+
+        .portfolio-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #ffffff;
+            color: #000000;
+            padding: 1.5rem 3rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            margin-top: 2rem;
+        }
+
+        .portfolio-cta:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #222222;
+            border-top: 1px solid #333333;
+            padding: 2rem 0;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 2px solid #333333;
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo">
+                <i class="fas fa-robot"></i>
+                ProPilot
+                <span class="live-badge">LIVE DEMO</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#demo">Try It</a></li>
+                <li><a href="#story">The Story</a></li>
+                <li><a href="#portfolio">Full Portfolio</a></li>
+                <li><a href="/procurement-dashboard-pro.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="demo-label">INTERACTIVE DEMO</div>
+        <h1 class="hero-title">AI-Powered Data Analysis</h1>
+        <p class="hero-subtitle">
+            Upload any CSV/Excel file and watch AI extract insights in real-time. 
+            Zero setup, zero integration - just working AI that gets shit done.
+        </p>
+        
+        <div class="drop-zone" id="dropZone">
+            <div class="drop-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <div class="drop-text">Drop your data file here</div>
+            <div class="drop-subtext">CSV, Excel - any messy spreadsheet works</div>
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-upload"></i>
+                Try It Live
+            </button>
+        </div>
+        
+        <input type="file" id="fileInput" class="file-input" accept=".csv,.xlsx,.xls">
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>AI is analyzing your data...</div>
+        </div>
+    </section>
+
+    <!-- What This Demonstrates -->
+    <section class="demo-section" id="demo">
+        <h2 class="section-title">What This Demo Shows</h2>
+        <div class="demo-grid">
+            <div class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-broom"></i>
+                </div>
+                <h3 class="demo-card-title">Messy Data → Clean Insights</h3>
+                <p class="demo-card-description">
+                    Real spreadsheets are chaos. This system normalizes inconsistent data, 
+                    handles missing fields, and extracts patterns from the mess.
+                </p>
+                <div class="tech-tag">Data Normalization</div>
+                <div class="tech-tag">Pattern Recognition</div>
+            </div>
+            
+            <div class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="demo-card-title">Math + AI = Accuracy</h3>
+                <p class="demo-card-description">
+                    Custom algorithms handle calculations, AI provides context. 
+                    No hallucinations in the numbers, just clear explanations.
+                </p>
+                <div class="tech-tag">Statistical Analysis</div>
+                <div class="tech-tag">OpenAI Integration</div>
+            </div>
+            
+            <div class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3 class="demo-card-title">Zero Integration Required</h3>
+                <p class="demo-card-description">
+                    No APIs to connect, no databases to configure. 
+                    Upload → Process → Insights. That's it.
+                </p>
+                <div class="tech-tag">Standalone System</div>
+                <div class="tech-tag">Instant Deploy</div>
+            </div>
+            
+            <div class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="demo-card-title">Built for Real Users</h3>
+                <p class="demo-card-description">
+                    Non-technical users get clear, actionable insights. 
+                    No jargon, no confusion - just answers they can use.
+                </p>
+                <div class="tech-tag">User Experience</div>
+                <div class="tech-tag">Business Language</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Real Story -->
+    <section class="story-section" id="story">
+        <div class="story-container">
+            <h2 class="section-title">The Real Story</h2>
+            <p class="story-text">
+                I built this as a <span class="story-highlight">technical demonstration</span> - not because I'm in procurement, 
+                but because I turn complex business problems into working AI systems.
+            </p>
+            <p class="story-text">
+                The challenge: <span class="story-highlight">Create an AI analytics tool with zero ERP integration</span>. 
+                Everything had to work from simple file uploads, handle messy real-world data, 
+                and deliver insights that non-technical users could actually use.
+            </p>
+            <p class="story-text">
+                My approach: <span class="story-highlight">Separate the math from the AI</span>. 
+                Custom algorithms handle the heavy lifting (duplicate detection, statistical analysis), 
+                while OpenAI translates technical findings into business language.
+            </p>
+            <p class="story-text">
+                <span class="story-highlight">This is how I work</span> - I don't just build AI tools, 
+                I build systems that bridge the gap between AI capabilities and real business needs.
+            </p>
+        </div>
+    </section>
+
+    <!-- Portfolio Link -->
+    <section class="portfolio-section" id="portfolio">
+        <h2 class="section-title">See More Live Demos</h2>
+        <p style="font-size: 1.2rem; color: #ffffff; margin-bottom: 2rem;">
+            This is just one example. My full portfolio has 10+ interactive demos 
+            showing different AI systems in action.
+        </p>
+        <a href="https://ahmadbasheerdotcom.vercel.app/" class="portfolio-cta" target="_blank">
+            <i class="fas fa-external-link-alt"></i>
+            View Full Portfolio
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p><strong>Ahmad Basheer</strong> - I Turn AI Into Systems That Work</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                $40/hr • Available Now • No BS, Just Results
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // File drop functionality
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const loading = document.getElementById('loading');
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        // Highlight drop zone when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        // Handle dropped files
+        dropZone.addEventListener('drop', handleDrop, false);
+        fileInput.addEventListener('change', handleFileSelect, false);
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight(e) {
+            dropZone.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (isValidFile(file)) {
+                    uploadFile(file);
+                } else {
+                    alert('Please select a CSV or Excel file.');
+                }
+            }
+        }
+
+        function isValidFile(file) {
+            const validTypes = ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+            const validExtensions = ['.csv', '.xls', '.xlsx'];
+            return validTypes.includes(file.type) || validExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+        }
+
+        async function uploadFile(file) {
+            loading.classList.add('active');
+            dropZone.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Store data and redirect to dashboard
+                    sessionStorage.setItem('uploadedData', JSON.stringify(result.data));
+                    window.location.href = '/procurement-dashboard-pro.html';
+                } else {
+                    throw new Error(result.error || 'Upload failed');
+                }
+            } catch (error) {
+                alert('Upload failed: ' + error.message);
+                loading.classList.remove('active');
+                dropZone.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
