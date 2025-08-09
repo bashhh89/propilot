@@ -14,6 +14,9 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 const app = express();
 const PORT = process.env.PORT || 8847;
 
+console.log('🚀 Starting Procurement AI Copilot...');
+console.log(`📊 Server will run on port: ${PORT}`);
+
 // OpenWebUI Configuration
 const OPENWEBUI_CONFIG = {
     baseURL: 'https://socialgarden-openwebui.vo0egb.easypanel.host',
@@ -929,7 +932,18 @@ app.get('/test-ai', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
+// Error handling
+process.on('uncaughtException', (error) => {
+    console.error('❌ Uncaught Exception:', error);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+// Start server
+const server = app.listen(PORT, () => {
     console.log(`🚀 Procurement AI Copilot running on http://localhost:${PORT}`);
     console.log(`📁 Upload endpoint: http://localhost:${PORT}/upload`);
     console.log(`🤖 AI Analysis endpoint: http://localhost:${PORT}/analyze`);
@@ -941,4 +955,14 @@ app.listen(PORT, () => {
     console.log(`🔧 Test AI endpoint: http://localhost:${PORT}/test-ai`);
     console.log(`🌐 OpenWebUI: ${OPENWEBUI_CONFIG.baseURL}`);
     console.log(`🤖 Model: ${OPENWEBUI_CONFIG.model}`);
+    console.log('✅ Server started successfully!');
+});
+
+server.on('error', (error) => {
+    if (error.code === 'EADDRINUSE') {
+        console.error(`❌ Port ${PORT} is already in use. Try a different port.`);
+    } else {
+        console.error('❌ Server error:', error);
+    }
+    process.exit(1);
 });
